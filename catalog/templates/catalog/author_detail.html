@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>{{ author.last_name }}, {{ author.first_name }}</h1>
+
+  <p><strong>{{author.date_of_birth}} - {% if author.date_of_death == None %}*{% else %}{{author.date_of_death}}{% endif %}</strong></p>
+  {% if author.prefered_genres %}<p><strong>Genres:</strong> {{ author.prefered_genres }}</p>{% endif %}
+  
+    {% if perms.catalog.can_mark_returned %}
+        <a href="{% url 'author_update' author.pk %}">Update</a> --- <a href="{% url 'author_delete' author.pk %}">Delete</a>
+    {% endif %}
+  
+  <hr>  
+  <p><strong>{{author.book_set.count}} books</strong></p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Author's books</h4>
+
+    <hr>
+    {% if author.book_set.count == 0 %}
+        <p class="text-danger">No books available :-(</p>
+    {% endif %}
+
+    {% for book in author.book_set.all %}
+        <p><strong>{{ book.title }}</strong></p>
+    {% endfor %}
+  </div>
+{% endblock %}
