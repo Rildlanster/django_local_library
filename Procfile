@@ -1,0 +1,1 @@
+web: gunicorn mozillaTut.wsgi --log-file -
